@@ -26,7 +26,7 @@ dsr_sdk = DataSpireSDK(id= 'model-id-1',name='model-name-1', health_worker=True,
 @app.post("/pridict")
 def processing(request: Request):
     # Start request 
-    sess = sdk.newSession()
+    sess = dsr_sdk.newSession()
     sess.start(request)
 
     result = {"Result": "result"}
@@ -47,7 +47,7 @@ dsr_sdk = DataSpireSDK(id= 'model-id-1',name='model-name-1', health_worker=True,
 @app.post("/pridict")
 def processing(request: Request):
     # Start request 
-    sess = sdk.newSession()
+    sess = dsr_sdk.newSession()
     sess.start(request)
 
     result = None
