@@ -22,7 +22,8 @@ class Session:
             sdk_metadata: dict,
             target: str,
             timeout: float = 10,
-            test_client: TestClient = None
+            test_client: TestClient = None,
+            dev_mode: bool = False, 
         ) -> None:
             self.sdk_metadata = sdk_metadata
             self.target = target
@@ -35,6 +36,7 @@ class Session:
             self.timeout = timeout
             self.closed = False
             self.test_client = test_client # Only using for testing
+            self.dev_mode = dev_mode
 
     def start(self, request: Request):
         logger.info(f"Start new session {self.session['id']}")
@@ -121,6 +123,11 @@ class Session:
         if self.closed:
             logger.warning("Session is closed")
             return None
+        
+        if self.dev_mode:
+            logger.warning("Session in dev mode so request does not delivery")
+            return None
+
 
         params = "?async=false" if wait else "?async=true"
         url = f"{self.target}/topics/{topic}" + params

@@ -159,3 +159,9 @@ def test_send_result():
     response = client.post("/result", headers={"Authorization": "Other foobar"})
     assert response.status_code == 200, response.text
     assert response.json() == {'path': "s3://result", 'json': None}
+
+def test_dev_mode():
+    sdk1.dev_mode = True
+    response = client.post("/result", headers={"Authorization": "Other foobar"})
+    assert response.status_code == 200, response.text
+    assert response.json() == None
