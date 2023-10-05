@@ -19,9 +19,9 @@ $ pip install dsr-model-sdk
 * Create a file `main.py` with:
 
 ```Python
-dsr_sdk = DataSpireSDK(id= 'model-id-1',name='model-name-1', health_worker=True, target="kafka-bride.local")
+dsr_sdk = DataSpireSDK(id= 'model-id-1',name='model-name-1', health_worker=True, target="kafka-bridge.local")
 
-@app.post("/pridict")
+@app.post("/predict")
 def processing(request: Request):
     # Start request 
     sess = dsr_sdk.newSession()
@@ -42,7 +42,7 @@ def processing(request: Request):
 # Just created one time
 dsr_sdk = DataSpireSDK(id= 'model-id-1',name='model-name-1', health_worker=True, target="kafka-bride.local")
 
-@app.post("/pridict")
+@app.post("/predict")
 def processing(request: Request):
     # Start request 
     sess = dsr_sdk.newSession()
