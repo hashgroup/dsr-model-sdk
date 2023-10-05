@@ -1,0 +1,18 @@
+{
+    "model_name": "Sentiment Analysis",
+    "model_id": "09032c8c-8f74-42f3-aa4e-13a67e05caec",
+    "type": "RESULT",
+    "data": {
+        "json": {},
+        "path": "s3://"
+    },
+    "session": {
+        "id": "25029ba7-1a17-41a8-8fb7-49972e2ad2ae",
+        "start": "2023-11-20T00:00:00Z",
+        "end": "2023-11-20T23:59:59Z"
+    },
+    "extra": {
+        "header": {},
+        "params": {}
+    }
+}

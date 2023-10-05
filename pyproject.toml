@@ -1,0 +1,22 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "dsr-model-sdk"
+version = "0.0.1"
+authors = [
+  { name="An Quach", email="an.quach@the-hash.com" },
+]
+description = "A agent helper support send data out the service"
+readme = "README.md"
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+[project.urls]
+"Homepage" = "https://the-hash.com"
+"Bug Tracker" = "https://github.com/anthoai97/dsr_python_agent"

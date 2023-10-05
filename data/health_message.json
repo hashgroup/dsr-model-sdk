@@ -1,0 +1,9 @@
+{
+    "model_name": "Sentiment Analysis",
+    "model_id": "09032c8c-8f74-42f3-aa4e-13a67e05caec",
+    "type": "HEALTH",
+    "data": {
+        "status": "health",
+        "time": "2023-11-20T23:59:59Z"
+    }
+}
