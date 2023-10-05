@@ -54,7 +54,7 @@ def processing(request: Request):
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.processing(request=request, data={"message": "I'm Procession"})
+    r = sess.processing(req=request, data={"message": "I'm Procession"})
     if sess.thread != None:
         sess.thread.join()
     return r
@@ -67,11 +67,11 @@ def completed(request: Request):
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.processing(request=request, data={"message": "I'm Procession"})
+    r = sess.processing(req=request, data={"message": "I'm Procession"})
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.completed(request=request, data={"message": "this is the result"})
+    r = sess.completed(req=request, data={"message": "this is the result"})
     if sess.thread != None:
         sess.thread.join()
 
@@ -85,16 +85,16 @@ def failed(request: Request):
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.processing(request=request, data={"message": "I'm Procession"})
+    r = sess.processing(req=request, data={"message": "I'm Procession"})
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.failed(request=request, error={"message": "this is a failed request"})
+    r = sess.failed(req=request, error={"message": "this is a failed request"})
     if sess.thread != None:
         sess.thread.join()
 
     sess.close()
-    r = sess.processing(request=request, data={"message": "I'm Procession"})
+    r = sess.processing(req=request, data={"message": "I'm Procession"})
     assert sess.closed == True
 
     return r
@@ -108,11 +108,11 @@ def result(request: Request):
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.processing(request=request, data={"message": "I'm Procession"})
+    r = sess.processing(req=request, data={"message": "I'm Procession"})
     if sess.thread != None:
         sess.thread.join()
 
-    r = sess.result(request=request, path="s3://result")
+    r = sess.result(req=request, path="s3://result")
     sess.close()
     assert sess.closed == True
 

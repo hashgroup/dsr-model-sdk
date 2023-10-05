@@ -5,7 +5,7 @@ import sys
 path = os.path.join(os.path.dirname(__file__), os.pardir)
 sys.path.append(path)
 
-from dsr_model_sdk import DataSpireSDK
+from dsr_model_sdk.dsr_sdk import DataSpireSDK
 
 class TestDataSpireSDK():
     id = 'data-spire-sdk-1'

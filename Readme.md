@@ -25,12 +25,12 @@ dsr_sdk = DataSpireSDK(id= 'model-id-1',name='model-name-1', health_worker=True,
 def processing(request: Request):
     # Start request 
     sess = dsr_sdk.newSession()
-    sess.start(request)
+    sess.start(req: request)
 
     result = {"Result": "result"}
     
     # End request 
-    sess.completed(request, data=result)
+    sess.completed(req: request, data=result)
     sess.close()
 
     return result
@@ -51,15 +51,15 @@ def processing(request: Request):
     result = None
 
     try:
-        sess.processing(request, data={"current": 1, "total": 10000})
-        sess.processing(request, data={"current": 100, "total": 10000})
-        sess.processing(request, data={"current": 1000, "total": 10000})
-        sess.processing(request, data={"current": 9999, "total": 10000})
+        sess.processing(req: request, data={"current": 1, "total": 10000})
+        sess.processing(req: request, data={"current": 100, "total": 10000})
+        sess.processing(req: request, data={"current": 1000, "total": 10000})
+        sess.processing(req: request, data={"current": 9999, "total": 10000})
 
         result = {"Result": "result"}
         # End request 
     except Exception:
-        sess.failed(request, error={"Exception Error": "Data input format validated failed..."})
+        sess.failed(req: request, error={"Exception Error": "Data input format validated failed..."})
     finally:
         sess.close()
     

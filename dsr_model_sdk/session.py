@@ -3,7 +3,6 @@ from enum import Enum
 import json
 import uuid
 from fastapi import Request
-from fastapi.testclient import TestClient
 import requests
 import threading
 
@@ -15,14 +14,13 @@ EventType = Enum('EventType', ['PREDICT_START', 'PREDICT_PROCESSING', 'PREDICT_F
 
 class Session:
     session: dict
-    test_client: TestClient
 
     def __init__(
             self,
             sdk_metadata: dict,
             target: str,
             timeout: float = 10,
-            test_client: TestClient = None,
+            test_client = None,
             dev_mode: bool = False, 
         ) -> None:
             self.sdk_metadata = sdk_metadata
@@ -38,7 +36,7 @@ class Session:
             self.test_client = test_client # Only using for testing
             self.dev_mode = dev_mode
 
-    def start(self, request: Request):
+    def start(self, req: Request):
         logger.info(f"Start new session {self.session['id']}")
 
         body = {
@@ -48,14 +46,14 @@ class Session:
                 "event": EventType.PREDICT_START.name,
             },
             "extra": {
-                "headers": dict(request.headers)
+                "headers": dict(req.headers)
             },
             "session": self.session
         }
 
         return self._delivery(EVENT_TOPIC,  self.sdk_metadata | body)
     
-    def processing(self, request: Request, data: dict = {}):
+    def processing(self, req: Request, data: dict = {}):
         body = {
             "type": MessageType.EVENT.name,
             "session": self.session,
@@ -63,13 +61,13 @@ class Session:
                 "event": EventType.PREDICT_PROCESSING.name,
             } | data,
             "extra": {
-                "headers": dict(request.headers)
+                "headers": dict(req.headers)
             },
         }
 
         return self._delivery(EVENT_TOPIC,  self.sdk_metadata | body)
     
-    def completed(self, request: Request, data: dict = {}):
+    def completed(self, req: Request, data: dict = {}):
         self.session["end"] = f"{datetime.now()}"
         body = {
             "type": MessageType.EVENT.name,
@@ -79,13 +77,13 @@ class Session:
                 "result": {} | data
             },
             "extra": {
-                "headers": dict(request.headers)
+                "headers": dict(req.headers)
             },
         }
 
         return self._delivery(EVENT_TOPIC,  self.sdk_metadata | body)
     
-    def failed(self, request: Request, error: dict = {}):
+    def failed(self, req: Request, error: dict = {}):
         self.session["end"] = f"{datetime.now()}"
         body = {
             "type": MessageType.EVENT.name,
@@ -95,13 +93,13 @@ class Session:
                 "error": {} | error
             },
             "extra": {
-                "headers": dict(request.headers)
+                "headers": dict(req.headers)
             },
         }
 
         return self._delivery(EVENT_TOPIC,  self.sdk_metadata | body)
     
-    def result(self, request: Request, json: dict = None, path: str = None):
+    def result(self, req: Request, json: dict = None, path: str = None):
         body = {
             "type": MessageType.RESULT.name,
             "session": self.session,
@@ -110,7 +108,7 @@ class Session:
                 "path": path,
             },
             "extra": {
-                "headers": dict(request.headers)
+                "headers": dict(req.headers)
             },
         }
 

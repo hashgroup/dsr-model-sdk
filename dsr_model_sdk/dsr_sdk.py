@@ -4,7 +4,6 @@ from dsr_model_sdk.logger import logger
 from dsr_model_sdk.jobs import send_health_to_target
 from dsr_model_sdk.topics import HEALTH_TOPIC
 from apscheduler.schedulers.background import BackgroundScheduler
-from fastapi.testclient import TestClient
 
 class DataSpireSDK(metaclass=SingletonMeta):
     """
@@ -19,7 +18,7 @@ class DataSpireSDK(metaclass=SingletonMeta):
         id: str,
         name: str,
         health_worker: bool = True,
-        test_client: TestClient = None,
+        test_client = None,
         dev_mode: bool = False, 
         target: str = "http://kafka-bridge-bridge-service.kafka.svc.cluster.local:8080"
     ) -> None:
