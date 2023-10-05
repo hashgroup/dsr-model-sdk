@@ -16,8 +16,6 @@ $ pip install dsr-model-sdk
 
 ## Example
 
-### Create it
-
 * Create a file `main.py` with:
 
 ```Python
