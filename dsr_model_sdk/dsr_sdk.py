@@ -28,7 +28,7 @@ class DataSpireSDK(metaclass=SingletonMeta):
         self.target = target
         self.test_client = test_client
         if health_worker:
-            self.scheduler.add_job(func=send_health_to_target, args=[self.id, self.name, self.target + "/topics/" + HEALTH_TOPIC], trigger='interval', seconds=10, max_instances=8)
+            self.scheduler.add_job(func=send_health_to_target, args=[self.id, self.name, self.target + "/topics/" + HEALTH_TOPIC], trigger='interval', seconds=20, max_instances=8)
             self.start_health_worker()
         
     def start_health_worker(self):

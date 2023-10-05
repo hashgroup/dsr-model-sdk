@@ -157,7 +157,8 @@ class Session:
                 timeout=self.timeout,
                 )
             r.raise_for_status()
-            logger.info(str(r.status_code) + ' => ' + str(body))
+            logger.info("Start delivery status_code: "+ str(r.status_code))
+            logger.debug("Debug body: "+ str(body))
         except requests.exceptions.HTTPError as errh:
             logger.error("HTTP Error")
             logger.error(errh.args[0])
