@@ -4,13 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "dsr-model-sdk"
-version = "0.0.12"
+version = "0.0.13"
 authors = [
   { name="An Quach", email="an.quach@the-hash.com" },
 ]
 dependencies = [
   "apscheduler==3.10.4",
   "requests==2.31.0",
+  "fastapi==0.103.2",
 ]
 description = "A agent helper support send data out the service"
 readme = "README.md"
