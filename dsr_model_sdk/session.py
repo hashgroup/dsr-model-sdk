@@ -19,11 +19,13 @@ class Session:
             self,
             sdk_metadata: dict,
             target: str,
+            storage_target: str,
             timeout: float = 10,
             test_client = None,
             dev_mode: bool = False, 
         ) -> None:
             self.sdk_metadata = sdk_metadata
+            self.storage_target = storage_target
             self.target = target
             self.session = {
                 "id":  uuid.uuid4().hex,
@@ -173,3 +175,38 @@ class Session:
             logger.error("Connection error")
         except requests.exceptions.RequestException as errex:
             logger.error("Exception request")
+
+    def s3_sts_credential(self, req: Request):
+        try:
+            tenant = req.headers.get("X-Tenant", None)
+            if tenant is None:
+                raise KeyError('Can not found X-Tenant in request header')
+
+            url = f"{self.storage_target}/credential/ai"
+            body = {
+                "tenant": tenant
+            }    
+            session = retry_apdapter(retries=5)
+            r = session.post(
+                url,
+                data=json.dumps(body),
+                timeout=self.timeout,
+            )
+            r.raise_for_status()
+            logger.info("Get STS Credential success: "+ str(r.status_code))
+            logger.debug("Body: "+ str(body))
+            return r.json()
+        except KeyError as kerr:
+            logger.error('Can not found X-Tenant in request header')
+        except requests.exceptions.HTTPError as errh:
+            logger.error("HTTP Error")
+            logger.error(errh.args[0])
+        except requests.exceptions.ReadTimeout as errrt:
+            logger.error("Time out")
+        except requests.exceptions.ConnectionError as conerr:
+            logger.error("Connection error")
+        except requests.exceptions.RequestException as errex:
+            logger.error("Exception request")
+
+
+        

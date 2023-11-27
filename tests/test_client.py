@@ -7,6 +7,7 @@ from dsr_model_sdk.topics import EVENT_TOPIC, RESULT_TOPIC
 from dsr_model_sdk.message import MessageType
 
 target = "http://localhost:8080" # Kafka Brigde endpoint
+target_storage = "http://localhost:8080"
 kapp = FastAPI()
 
 @kapp.post(f"/topics/{EVENT_TOPIC}")
@@ -31,7 +32,7 @@ async def resultTopic(request: Request):
 kclient = TestClient(kapp)
 
 sdk1 = DataSpireSDK(id= 'model-id-1', name='model-name-1', health_worker=False, target=target, 
-                    test_client=kclient
+                    test_client=kclient, storage_target=target_storage
                     )
 
 app = FastAPI()
@@ -118,6 +119,13 @@ def result(request: Request):
 
     return r
 
+@app.post("/credential")
+def credential(request: Request):
+    sess = sdk1.newSession()
+    cred = sess.s3_sts_credential(req=request)
+    print(cred)
+    return cred
+
 client = TestClient(app)
 
 # ===========================
@@ -163,5 +171,18 @@ def test_send_result():
 def test_dev_mode():
     sdk1.dev_mode = True
     response = client.post("/result", headers={"Authorization": "Other foobar"})
+    assert response.status_code == 200, response.text
+    assert response.json() == None
+
+def test_credential_mode():
+    sdk1.dev_mode = True
+    response = client.post("/credential", headers={"Authorization": "Other foobar", "X-Tenant": "dataspire"})
+    assert response.status_code == 200, response.text
+    assert response.json() != None
+    assert response.json()["data"]["AccessKeyId"] != None
+
+def test_credential_mode_without_header():
+    sdk1.dev_mode = True
+    response = client.post("/credential", headers={"Authorization": "Other foobar"})
     assert response.status_code == 200, response.text
     assert response.json() == None
